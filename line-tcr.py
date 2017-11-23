@@ -1455,7 +1455,50 @@ def bot(op):
                         kc.leaveGroup(msg.to)
                     except:
                         pass
-#-----------------------------------------------
+#-------------------------------------------------------------------------
+             elif "Protect:on" == msg.text:
+				if msg.to in protection:
+					cl.sendText(msg.to,"Already")
+				else:
+					wait["pnharfbot"][msg.to] = cl.getGroup(msg.to).name
+					f=codecs.open('pnharfbot.json','w','utf-8')
+					json.dump(wait["pnharfbot"], f, sort_keys=True, indent=4,ensure_ascii=False)
+					protection.append(msg.to)
+					cl.sendText(msg.to,"Turn on")
+            elif "Protect:off" == msg.text:
+				try:
+					if msg.from_ in Administrator:
+						protection.remove(msg.to)
+						cl.sendText(msg.to,"Turn off")
+					else:
+						cl.sendText(msg.to,"Already off")
+				except:
+					pass
+            elif "Namelock:on" in msg.text:
+                if msg.to in wait['pname']:
+                    cl.sendText(msg.to,"Turn on")
+                else:
+                    cl.sendText(msg.to,"Already off")
+                    wait['pname'][msg.to] = True
+                    wait['pro_name'][msg.to] = cl.getGroup(msg.to).name
+            elif "Namelock:off" in msg.text:
+                if msg.to in wait['pname']:
+                    cl.sendText(msg.to,"Turn on")
+                    del wait['pname'][msg.to]
+                else:
+                    cl.sendText(msg.to,"Already off")
+					
+            elif "Blockinvite:on" == msg.text:
+				gid = msg.to
+				autocancel[gid] = "poni"
+				cl.sendText(msg.to,"PROTECT INVITE ON")
+            elif "Blockinvite:off" == msg.text:
+				try:
+					del autocancel[msg.to]
+					cl.sendText(msg.to,"PROTECT INVITE OFF")
+				except:
+					pass            
+#--------------------------------------------------------------------------------
             elif msg.text in ["Kill"]:
                 if msg.toType == 2:
                     group = ki.getGroup(msg.to)
