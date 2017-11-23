@@ -76,7 +76,7 @@ Bmid = kk.getProfile().mid
 Cmid = kc.getProfile().mid
 
 Bots=[mid,Amid,Bmid,Cmid]
-admin=["YOUR_MID_HERE"]
+admin=["uc77fd25b59f6e563d84f1334f3fed10b"]
 wait = {
     'contact':True,
     'autoJoin':True,
@@ -92,12 +92,12 @@ wait = {
     "wblack":False,
     "dblack":False,
     "clock":True,
-    "cName":"Chivas ",
+    "cName":"TEST BOT ",
     "blacklist":{},
-    "wblacklist":False,
-    "dblacklist":False,
-    "protectionOn":True,
-    "atjointicket":False
+    "pnharfbot":False,
+    "pnharfbot":False,
+    "protection":True,
+    "protectname":False
     }
 
 wait2 = {
@@ -413,7 +413,7 @@ def bot(op):
             if msg.contentType == 16:
                 url = msg.contentMetadata("line://home/post?userMid="+mid+"&postId="+"new_post")
                 cl.like(url[25:58], url[66:], likeType=1001)
-        if op.type == 26:
+        if op.type == 25:
             msg = op.message
             if msg.contentType == 13:
                if wait["wblack"] == True:
