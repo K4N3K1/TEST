@@ -94,9 +94,9 @@ wait = {
     "clock":True,
     "cName":"TEST BOT ",
     "blacklist":{},
-    "pnharfbot":False,
-    "pnharfbot":False,
-    "protection":True,
+    "AutoCancel":False,
+    "AutoKick":False,
+    "QR":True,
     "protectname":False
     }
 
@@ -1455,49 +1455,45 @@ def bot(op):
                         kc.leaveGroup(msg.to)
                     except:
                         pass
-#-------------------------------------------------------------------------
-             elif "Protect:on" == msg.text:
-				if msg.to in protection:
-					cl.sendText(msg.to,"Already")
-				else:
-					wait["pnharfbot"][msg.to] = cl.getGroup(msg.to).name
-					f=codecs.open('pnharfbot.json','w','utf-8')
-					json.dump(wait["pnharfbot"], f, sort_keys=True, indent=4,ensure_ascii=False)
-					protection.append(msg.to)
-					cl.sendText(msg.to,"Turn on")
-            elif "Protect:off" == msg.text:
-				try:
-					if msg.from_ in Administrator:
-						protection.remove(msg.to)
-						cl.sendText(msg.to,"Turn off")
-					else:
-						cl.sendText(msg.to,"Already off")
-				except:
-					pass
-            elif "Namelock:on" in msg.text:
-                if msg.to in wait['pname']:
-                    cl.sendText(msg.to,"Turn on")
-                else:
-                    cl.sendText(msg.to,"Already off")
-                    wait['pname'][msg.to] = True
-                    wait['pro_name'][msg.to] = cl.getGroup(msg.to).name
-            elif "Namelock:off" in msg.text:
-                if msg.to in wait['pname']:
-                    cl.sendText(msg.to,"Turn on")
-                    del wait['pname'][msg.to]
-                else:
-                    cl.sendText(msg.to,"Already off")
-					
-            elif "Blockinvite:on" == msg.text:
-				gid = msg.to
-				autocancel[gid] = "poni"
-				cl.sendText(msg.to,"PROTECT INVITE ON")
-            elif "Blockinvite:off" == msg.text:
-				try:
-					del autocancel[msg.to]
-					cl.sendText(msg.to,"PROTECT INVITE OFF")
-				except:
-					pass            
+#-------------------------------[QR]----------------------------------
+            elif "Qr:on" in msg.text:
+	        wait["Qr"] = True
+	    	cl.sendText(msg.to,"Protect Qr On")
+
+	    elif "Qr:off" in msg.text:
+	    	wait["Qr"] = False
+	    	cl.sendText(msg.to,"Protect Qr Off")
+#-------------------------------[Autokick]-----------------------------
+            elif "Autokick:on" in msg.text:
+		wait["AutoKick"] = True
+		cl.sendText(msg.to,"Auto Aktif")
+
+	    elif "Autokick:off" in msg.text:
+		wait["AutoKick"] = False
+		cl.sendText(msg.to,"Auto Non-aktif")    
+#--------------------------------------------------------
+	    elif "Backup me" in msg.text:
+		try:
+		    cl.updateDisplayPicture(profile.pictureStatus)
+		    cl.updateProfile(profile)
+		    cl.sendText(msg.to, "Success backup profile")
+		except Exception as e:
+		    cl.sendText(msg.to, str(e))
+#--------------------------------------------------------
+	    elif "Copy " in msg.text:
+                copy0 = msg.text.replace("Copy ","")
+                copy1 = copy0.lstrip()
+                copy2 = copy1.replace("@","")
+                copy3 = copy2.rstrip()
+                _name = copy3
+		group = cl.getGroup(msg.to)
+		for contact in group.members:
+		    cname = cl.getContact(contact.mid).displayName
+		    if cname == _name:
+			cl.CloneContactProfile(contact.mid)
+			cl.sendText(msg.to, "Success~")
+		    else:
+			pass
 #--------------------------------------------------------------------------------
             elif msg.text in ["Kill"]:
                 if msg.toType == 2:
